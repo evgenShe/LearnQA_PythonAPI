@@ -3,9 +3,14 @@ import requests
 response = requests.get("https://playground.learnqa.ru/api/long_redirect")
 
 len_history = len(response.history)
-url_last_redirect = response.url
+history = response.history
+print("Количество редиректов:", len_history)
+# print result:
+# Количество редиректов: 3
 
-print(len_history)
-# 2
-print(url_last_redirect)
-# https://learnqa.ru/
+for u in history:
+    print("URL итоговый:", u.url)
+# print result:
+# URL итоговые: https://playground.learnqa.ru/api/long_redirect
+# URL итоговые: https://playground.learnqa.ru/
+# URL итоговые: https://learnqa.ru/
