@@ -12,7 +12,6 @@ response_with_token = requests.get("https://playground.learnqa.ru/ajax/api/longt
 # print(response_with_token.text)
 # {"status":"Job is NOT ready"}
 response_with_token_as_json = response_with_token.json()
-
 checkStatus = response_with_token_as_json['status']
 if checkStatus != "Job is NOT ready":
     print("Status is NOT is true")
