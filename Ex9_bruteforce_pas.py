@@ -1,6 +1,7 @@
 import requests
 
-password_list = (" 1    password    password    123456    123456    123456    123456    123456    123456    123456 \
+password_list = (
+        "1    password    password    123456    123456    123456    123456    123456    123456    123456 \
         2    123456    123456    password    password    password    password    password    password    123456789\
         3    12345678    12345678    12345678    12345    12345678    12345    12345678    123456789    qwerty\
         4    qwerty    abc123    qwerty    12345678    qwerty    12345678    qwerty    12345678    password\
