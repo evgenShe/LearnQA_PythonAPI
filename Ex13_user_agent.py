@@ -33,6 +33,6 @@ class TestUserAgent:
         response = requests.get(url, headers=headers)
         resp_json = response.json()
 
-        assert expected_values['platform'] == resp_json['platform'], 'Value does not match'
-        assert expected_values['browser'] == resp_json['browser'], 'Value does not match'
-        assert expected_values['device'] == resp_json['device'], 'Value does not match'
+        assert expected_values['platform'] == resp_json['platform'], 'Invalid platform value'
+        assert expected_values['browser'] == resp_json['browser'], 'Invalid browser value'
+        assert expected_values['device'] == resp_json['device'], 'Invalid device value'
