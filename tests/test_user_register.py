@@ -3,6 +3,7 @@ import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from datetime import datetime
+from lib.data_generator import data_generator
 
 
 class TestUserRegister(BaseCase):
@@ -27,6 +28,7 @@ class TestUserRegister(BaseCase):
 
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
+        print(response.content)
 
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
@@ -56,17 +58,20 @@ class TestUserRegister(BaseCase):
         assert response.content.decode(
             "utf-8") == 'Invalid email format', f"Unexpected response content {response.content}"
 
-    def exclude_params(self, exclude_params_var):
-        exclude_params_var = [
-            ({'username': 'learnqa'}, {'firstName': 'learnqa'}, {'lastName': 'learnqa'}, {'email': self.email}),
-            ({'password': '123'}, {'firstName': 'learnqa'}, {'lastName': 'learnqa'}, {'email': self.email}),
-            ({'password': '123'}, {'username': 'learnqa'}, {'lastName': 'learnqa'}, {'email': self.email}),
-            ({'password': '123'}, {'username': 'learnqa'}, {'firstName': 'learnqa'}, {'email': self.email}),
-            ({'password': '123'}, {'username': 'learnqa'}, {'firstName': 'learnqa'}, {'lastName': 'learnqa'})
-        ]
-        return exclude_params_var
+    exclude_params = [{'username': 'learnqa', 'firstName': 'learnqa', 'lastName': 'learnqa',
+                       'email': data_generator.prepare_good_email()},
+                      {'password': '123', 'firstName': 'learnqa', 'lastName': 'learnqa',
+                       'email': data_generator.prepare_good_email()},
+                      {'password': '123', 'username': 'learnqa', 'lastName': 'learnqa',
+                       'email': data_generator.prepare_good_email()},
+                      {'password': '123', 'username': 'learnqa', 'firstName': 'learnqa',
+                       'email': data_generator.prepare_good_email()},
+                      {'password': '123', 'username': 'learnqa', 'firstName': 'learnqa', 'lastName': 'learnqa'}
+                      ]
 
-    @pytest.mark.parametrize('data', self.exclude_params_var)
+    @pytest.mark.parametrize('data', exclude_params)
     def test_create_user_with_exclude_params(self, data):
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
         Assertions.assert_code_status(response, 400)
+        assert response.content.decode(
+            "utf-8") >= 'The following required params are missed:', f"Unexpected response content {response.content}"
